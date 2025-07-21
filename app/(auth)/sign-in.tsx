@@ -1,5 +1,6 @@
 import CustomButton from "@/components/CustomButton"
 import CustomInput from "@/components/CustomInput"
+import { signIn } from "@/lib/appwrite"
 import { Link, useRouter } from "expo-router"
 import React, { useState } from 'react'
 import { Alert, Text, View } from 'react-native'
@@ -13,12 +14,15 @@ export default function SignIn() {
   })
 
   const submit = async () => {
+    const { email, password } = form;
     if (!form.email || !form.password) return Alert.alert("Error", "Please enter valid email address & password")
     setIsSubmitting(true)
     try {
-      // call appwrite sign in function here
-      Alert.alert("Success", "You have successfully signed in")
-      router.replace('/index')
+      signIn({
+        email,
+        password
+      })
+      router.replace('/')
     } catch (error: any) {
       Alert.alert("Error", error.message)
     } finally {
